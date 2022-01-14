@@ -15,27 +15,28 @@ public class Board {
 			for(int k=0; k<board.length * 5; ++k) System.out.print("-");
 			System.out.println();
 		}
-		
-		// Check Win After Displaying
-		checkWin();
-		checkDraw();
 	}
 	
 	public void checkWin() {
-		int rCnt = 0;
-		int cCnt = 0;
+		int rCnt;
+		int cCnt;
 
 		// Row + Column Checker
 		for(int i=0; i<board.length; ++i) {
+	
+			// Setting counters
+			rCnt = 0;
+			cCnt = 0;
+	
 			for(int j=0; j<board.length; ++j) {
 				rCnt += board[i][j].equals("X") ? 1 : board[i][j].equals("O") ? -1 : 0;
-				cCnt += board[j][i].equals("X") ? 1 : board[i][j].equals("O") ? -1 : 0;
+				cCnt += board[j][i].equals("X") ? 1 : board[j][i].equals("O") ? -1 : 0;
 			}
+			
+			// Check win conditions
+			if(rCnt == 3 || cCnt == 3) { this.xWin = true; this.activity = false; return; }
+			else if(rCnt == -3 || cCnt == -3) { this.oWin = true; this.activity = false; return; }
 		}
-
-		// Check win conditions
-		if(rCnt == 3 || cCnt == 3) { this.xWin = true; this.activity = false; return; }
-		else if(rCnt == -3 || cCnt == -3) { this.oWin = true; this.activity = false; return; }
 		
 		int uCnt = 0;
 		int dCnt = 0;
@@ -52,6 +53,7 @@ public class Board {
 	}
 	
 	public void checkDraw() {
+		if(xWin || oWin) return;
 		for(String[] i:board) for(String j:i) {
 			if(j.equals(" ")) return;
 		}
@@ -62,14 +64,15 @@ public class Board {
 	public boolean checkInput(int r, int c) {
 		if(board[r][c].equals(" ")) return true;
 		else {
-			System.out.println("Occupied!");
+			System.out.println("Occupied!\n");
 			return false;
 		}
 	}
 
 	public void setInput(int r, int c) {
 		board[r][c] = new String("X");
-		display();
+		checkWin();
+		checkDraw();
 	}
 	
 	public void getInput(String i, int[] location){
@@ -89,7 +92,16 @@ public class Board {
 	}
 	
 	public boolean getStatus() {
+		if(xWin || oWin) return false;
 		return this.draw;
+	}
+	
+	public int getSize() {
+		return board.length;
+	}
+	
+	public String[][] getBoard(){
+		return board;
 	}
 	
 	Board(){
