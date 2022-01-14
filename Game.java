@@ -8,10 +8,11 @@ public class Game {
 		System.out.println("Welcome to Tic-Tac-Toe!");
 		
 		Board board = new Board();
+		Minimax minimax = new Minimax(board);
 		Scanner sc = new Scanner(System.in);
 		board.display();
 		
-		while(board.getActivity()) {
+		while(true) {
 			int row, column;
 			
 			do {
@@ -22,6 +23,15 @@ public class Game {
 				} while(!board.checkInput(row, column));
 			
 			board.setInput(row, column);
+			
+			if(board.getActivity()) {
+				minimax.random();
+				board.checkWin();
+				board.checkDraw();
+			}
+			
+			board.display();
+			if(!board.getActivity()) break;
 		}
 		
 		if(!board.getStatus()) {
