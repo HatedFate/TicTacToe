@@ -1,17 +1,33 @@
 package tictactoe;
-
 import java.util.ArrayList;
 import java.lang.Math;
 
 public class Minimax {
-	private Board board;
+	private Board board = new Board();
+	private int depth = 2;
 	
-	public void minMax() {
+	public int[] ai() {
+		int bestScore = Integer.MAX_VALUE;
+		int[] bestCoordinates = new int[2];
 		for(int i=0; i<board.getSize(); ++i) {
 			for(int j=0; j<board.getSize(); ++j) {
-				
+				if(this.board.getBoard()[i][j].equals(" ")) {
+					int score = minMax();
+					if(score > bestScore) {
+						bestScore = score;
+						bestCoordinates[0] = i;
+						bestCoordinates[1] = j;
+					}
+				}
 			}
 		}
+		return bestCoordinates;
+	}
+	
+	public int minMax() {
+		boolean checkWin = board.winner();
+		int bestScore = Integer.MAX_VALUE;
+		return 1; // TODO Min Max Players
 	}
 	
 	
@@ -31,6 +47,15 @@ public class Minimax {
     }
 	
 	Minimax(Board board){
-		this.board = board;
+		for(int i=0; i<board.getSize(); ++i) for(int j=0; j<board.getSize(); ++j) {
+			this.board.getBoard()[i][j] = new String(board.getBoard()[i][j]);
+		}
+	}
+	
+	Minimax(Board board, int depth){
+		this.depth = depth;
+		for(int i=0; i<board.getSize(); ++i) for(int j=0; j<board.getSize(); ++j) {
+			this.board.getBoard()[i][j] = new String(board.getBoard()[i][j]);
+		}
 	}
 }
