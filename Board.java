@@ -26,12 +26,12 @@ public class Board {
 		
 		int uCnt = 0;
 		int dCnt = 0;
-		int range = board.length - 1;
+		int range = board.length-1;
 		for(int i=0; i<board.length; ++i) {
 			uCnt += board[i][i].equals(player) ? 1 : 0;
-			dCnt += board[range - i][range - i].equals(player) ? 1 : 0;
+			dCnt += board[i][range - i].equals(player) ? 1 : 0;
 		}
-		
+
 		return uCnt == 3 || dCnt == 3 ? true : false;
 	}
 	
