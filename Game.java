@@ -25,9 +25,9 @@ public class Game {
 			
 			do {
 				System.out.print("Enter Row: ");
-				row = check(sc, validate(sc));
+				row = check(sc, validate(sc)) - 1;
 				System.out.print("Enter Column: ");
-				column = check(sc, validate(sc));
+				column = check(sc, validate(sc)) - 1;
 				} while(!board.checkInput(row, column));
 			
 			board.setInput(row, column, new String("X"));
@@ -60,8 +60,8 @@ public class Game {
 	}
 	
 	public static int check(Scanner sc, int num) {
-		while(num > 2 || num < 0) {
-			System.out.print("Enter a number in range: ");
+		while(num > 3 || num < 1) {
+			System.out.print("Enter a number in range (1 - 3): ");
 			num = validate(sc);
 		}
 		return num;
@@ -77,3 +77,4 @@ public class Game {
 		return num;
 	}
 }
+
