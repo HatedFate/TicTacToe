@@ -4,20 +4,24 @@ import java.util.Scanner;
 
 public class Game {
 
+	private static boolean xWin = false;
+	private static boolean oWin = false;
+	private static boolean draw = false;
+	private static boolean endGame = false;
+	private static Minimax minimax;
+	private static Board board = new Board();
+	
+	
 	public static void main(String[] args) {
 		System.out.println("Welcome to Tic-Tac-Toe!");
-		
-		Minimax minimax;
-		Board board = new Board();
+
 		Scanner sc = new Scanner(System.in);
 		board.display();
 		
-		boolean xWin = false;
-		boolean oWin = false;
-		boolean draw = false;
-		boolean endGame = false;
 		while(true) {
 			int row, column;
+			endGame();
+			if(endGame) break;
 			
 			do {
 				System.out.print("Enter Row: ");
@@ -28,10 +32,7 @@ public class Game {
 			
 			board.setInput(row, column, new String("X"));
 			
-			oWin = board.checkWin(new String("O"));
-			xWin = board.checkWin(new String("X"));
-			draw = !xWin && !oWin ? board.checkDraw() : false; 
-			endGame = oWin || xWin || draw ? true : false;
+			endGame();
 			if(!endGame) {
 				minimax = new Minimax(board);
 				int[] coordinates = minimax.ai();
@@ -51,6 +52,13 @@ public class Game {
 		sc.close();
 	}
 
+	public static void endGame() {
+		oWin = board.checkWin(new String("O"));
+		xWin = board.checkWin(new String("X"));
+		draw = !xWin && !oWin ? board.checkDraw() : false; 
+		endGame = oWin || xWin || draw ? true : false;
+	}
+	
 	public static int check(Scanner sc, int num) {
 		while(num > 2 || num < 0) {
 			System.out.print("Enter a number in range: ");
@@ -69,4 +77,3 @@ public class Game {
 		return num;
 	}
 }
-
