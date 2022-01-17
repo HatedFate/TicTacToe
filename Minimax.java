@@ -21,7 +21,6 @@ public class Minimax {
 						bestScore = score;
 						bestCoordinates[0] = i;
 						bestCoordinates[1] = j;
-						System.out.println(bestScore);
 					}
 				}
 			}
