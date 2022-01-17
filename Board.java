@@ -2,10 +2,6 @@ package tictactoe;
 
 public class Board {
 	private String board[][] = new String[3][3];
-	private boolean draw = false;
-	private boolean xWin = false;
-	private boolean oWin = false;
-	private boolean activity = true;
 	
 	public void display() {
 		for(int i=0; i<board.length; ++i) {
@@ -17,48 +13,33 @@ public class Board {
 		}
 	}
 	
-	public void checkWin() {
-		int rCnt;
-		int cCnt;
-
-		// Row + Column Checker
+	public boolean checkWin(String player) {
 		for(int i=0; i<board.length; ++i) {
-	
-			// Setting counters
-			rCnt = 0;
-			cCnt = 0;
-	
+			int rCnt = 0;
+			int cCnt = 0;
 			for(int j=0; j<board.length; ++j) {
-				rCnt += board[i][j].equals("X") ? 1 : board[i][j].equals("O") ? -1 : 0;
-				cCnt += board[j][i].equals("X") ? 1 : board[j][i].equals("O") ? -1 : 0;
+				rCnt += board[i][j].equals(player) ? 1 : 0;
+				cCnt += board[j][i].equals(player) ? 1 : 0;
 			}
-			
-			// Check win conditions
-			if(rCnt == 3 || cCnt == 3) { this.xWin = true; this.activity = false; return; }
-			else if(rCnt == -3 || cCnt == -3) { this.oWin = true; this.activity = false; return; }
+			if(rCnt == 3 || cCnt == 3) return true;
 		}
 		
 		int uCnt = 0;
 		int dCnt = 0;
-		
-		// Diagonal Checker
 		int range = board.length - 1;
 		for(int i=0; i<board.length; ++i) {
-			uCnt += board[i][i].equals("X") ? 1 : board[i][i].equals("O") ? -1 : 0;
-			dCnt += board[range - i][range - i].equals("X") ? 1 : board[range - i][range - i].equals("O") ? -1 : 0;
+			uCnt += board[i][i].equals(player) ? 1 : 0;
+			dCnt += board[range - i][range - i].equals(player) ? 1 : 0;
 		}
 		
-		if(uCnt == 3 || dCnt == 3) { this.xWin = true; this.activity = false; return; }
-		else if(uCnt == -3 || dCnt == -3) { this.oWin = true; this.activity = false; return; }
+		return uCnt == 3 || dCnt == 3 ? true : false;
 	}
 	
-	public void checkDraw() {
-		if(xWin || oWin) return;
+	public boolean checkDraw() {
 		for(String[] i:board) for(String j:i) {
-			if(j.equals(" ")) return;
+			if(j.equals(" ")) return false;
 		}
-		this.activity = false;
-		this.draw = true;
+		return true;
 	}
 	
 	public boolean checkInput(int r, int c) {
@@ -69,34 +50,15 @@ public class Board {
 		}
 	}
 
-	public void setInput(int r, int c) {
-		board[r][c] = new String("X");
-		checkWin();
-		checkDraw();
+	public void setInput(int r, int c, String player) {
+		board[r][c] = new String(player);
 	}
 	
 	public void getInput(String i, int[] location){
 		board[location[0]][location[1]] = new String(i); 
 	}
 	
-	public boolean winner() {
-		return xWin ? true : false;
-	}
-
-	public void endGame() {
-		activity = xWin || oWin? false : true;
-	}
-	
-	public boolean getActivity() {
-		return this.activity;
-	}
-	
-	public boolean getStatus() {
-		if(xWin || oWin) return false;
-		return this.draw;
-	}
-	
-	public int getSize() {
+	public int size() {
 		return board.length;
 	}
 	
@@ -110,3 +72,4 @@ public class Board {
 		}
 	}
 }
+
