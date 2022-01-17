@@ -7,11 +7,15 @@ public class Game {
 	public static void main(String[] args) {
 		System.out.println("Welcome to Tic-Tac-Toe!");
 		
+		Minimax minimax;
 		Board board = new Board();
-		Minimax minimax = new Minimax(board);
 		Scanner sc = new Scanner(System.in);
 		board.display();
 		
+		boolean xWin = false;
+		boolean oWin = false;
+		boolean draw = false;
+		boolean endGame = false;
 		while(true) {
 			int row, column;
 			
@@ -22,21 +26,24 @@ public class Game {
 				column = check(sc, validate(sc));
 				} while(!board.checkInput(row, column));
 			
-			board.setInput(row, column);
+			board.setInput(row, column, new String("X"));
 			
-			if(board.getActivity()) {
-				minimax.random();
-				board.checkWin();
-				board.checkDraw();
-			}
+			oWin = board.checkWin(new String("O"));
+			xWin = board.checkWin(new String("X"));
+			draw = !xWin && !oWin ? board.checkDraw() : false; 
+			endGame = oWin || xWin || draw ? true : false;
+			if(!endGame) {
+				minimax = new Minimax(board);
+				int[] coordinates = minimax.ai();
+				board.setInput(coordinates[0], coordinates[1], new String("O"));
+			} else { board.display(); break; }
 			
 			board.display();
-			if(!board.getActivity()) break;
 		}
 		
-		if(!board.getStatus()) {
-			if(board.winner()) System.out.print("You've Won!");
-			else System.out.print("You've Lost!");
+		if(!draw) {
+			if(xWin) System.out.print("You've Won!");
+			else if(oWin) System.out.print("You've Lost!");
 		} else {
 			System.out.println("Draw!");
 		}
@@ -62,3 +69,4 @@ public class Game {
 		return num;
 	}
 }
+
