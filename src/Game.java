@@ -8,9 +8,8 @@ public class Game {
 	private static boolean oWin = false;
 	private static boolean draw = false;
 	private static boolean endGame = false;
-	private static Minimax minimax;
 	private static Board board = new Board();
-	
+	private static Minimax minimax = new Minimax(board);	
 	
 	public static void main(String[] args) {
 		System.out.println("Welcome to Tic-Tac-Toe!");
@@ -34,7 +33,6 @@ public class Game {
 			
 			endGame();
 			if(!endGame) {
-				minimax = new Minimax(board);
 				int[] coordinates = minimax.ai();
 				board.setInput(coordinates[0], coordinates[1], new String("O"));
 			} else { board.display(); break; }
