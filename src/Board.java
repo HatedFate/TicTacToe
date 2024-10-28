@@ -1,7 +1,7 @@
 package tictactoe;
 
 public class Board {
-	private String board[][] = new String[3][3];
+	private String board[][] = new String[7][7];
 	
 	public void display() {
 		for(int i=0; i<board.length; ++i) {
